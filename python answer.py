@@ -103,5 +103,84 @@ for index, row in data.iterrows():
 
 top_3_shop_revenue = sorted(shop_revenue, key = shop_revenue.get, reverse = True)[:3]
 
-print("Top 3 shops with the highest revenue: " + str(top_3_shops))
+print("Top 3 shops with the highest revenue: " + str(top_3_shops_revenue))
 print ()
+
+Part 5: Number of products that have more than 3 variations
+
+num_products_var = 0
+
+for index, row in data.iterrows():
+    variations = row['item_variation']
+    try:
+        count = variations.count(":")
+    except:
+        count = 0
+    if count > 3:
+        num_products_var += 1
+
+print ("Number of products with more than 3 variations: " + str(num_products_var))
+
+# Part 6 Duplicated listings:
+# a) Check duplicated listings
+
+# data['is_duplicated'] = False
+#
+# duplicates = data[data.duplicated(['shopid', 'item_name', 'item_description', 'price'], keep = False)]
+#
+# # print(duplicates)
+#
+# for index, row in data.iterrows():
+#     if row['itemid'] in duplicates['itemid']:
+#         # print('duplicate present')
+#         data.at[row, 'is_duplicated'] = 1
+#         # print(row)
+#
+# print ("Check for duplicates complete")
+#
+# exportdf = data
+# exportdf = exportdf.applymap(lambda x: x.encode('unicode_escape').
+#                  decode('utf-8') if isinstance(x, str) else x)
+# export_excel = exportdf.to_excel('/Users/Kevin/PycharmProjects/Shopee_test/duplicate.xlsx')
+#
+# # print(data)
+#
+# # b) Find duplicate listings with less than 2 sold count and store the result in a new excel file
+#
+#
+# duplicatesdf = data[data.sold_count<2]
+# duplicatesdf = duplicatesdf[duplicatesdf.is_duplicated == 'True']
+#
+# print (duplicatesdf.head())
+#
+#
+# # for index, row in duplicates_df.head().iterrows():
+# #     if row['sold_count'] > 2:
+# #         print ("row dropped")
+# #         duplicates_df.drop(index, axis = 0)
+#
+#
+# # duplicates_df = duplicates_df.applymap(lambda x: x.encode('unicode_escape').
+# #                  decode('utf-8') if isinstance(x, str) else x)
+#
+# # export_excel = duplicates_df.to_excel('/Users/Kevin/PycharmProjects/Shopee_test')
+#
+# print ("exported")
+#
+# # c) Find preferred shop shopid that have the most number of duplicated listings
+#
+# duplicated_listings_dict = {}
+#
+# duplicates_listings = data[data.is_duplicated == 'True']
+# duplicates_listings = duplicates_listings[duplicates_listings.is_preferred == 1]
+#
+# for index, row in duplicates_listings.iterrows():
+#     if row[duplicates_listings] in duplicated_listings_dict:
+#         duplicated_listings_dict[row[duplicates_listings]] += 1
+#     else:
+#         duplicated_listings_dict[row[duplicates_listings]] = 1
+#
+# shop_with_most_duplicates = sorted(duplicated_listings_dict, key = duplicated_listings_dict.get, reverse = True)[:1]
+#
+# print("Shop with most duplicates " + str(shop_with_most_duplicates))
+# print ()
